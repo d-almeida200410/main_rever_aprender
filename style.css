@@ -619,7 +619,7 @@ body {
 
 /* Ajustando o espaço entre os botões */
 .navbar ul li {
-    margin: 0 20px; /* Espaçamento entre os itens */
+    margin: 0 5px; /* Espaçamento entre os itens */
 }
 
 .navbar ul {
