@@ -12,22 +12,103 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
+            background: linear-gradient(135deg, #1a1a1a, #333);
             color: white;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
+        /* Loader (cubo mágico) */
+        .my-loader {
+            width: 100px; /* Tamanho reduzido */
+            height: 100px; /* Tamanho reduzido */
+            perspective: 1000px;
+            position: absolute;
+            top: 20px; /* Posicionado no topo */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .rubiks-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: my-rotateCube 5s infinite linear;
+        }
+
+        .my-loader .face {
+            position: absolute;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 100%;
+        }
+
+        .my-loader .face.front {
+            transform: translateZ(50px); /* Ajuste para o tamanho menor */
+        }
+        .my-loader .face.back {
+            transform: rotateY(180deg) translateZ(50px); /* Ajuste para o tamanho menor */
+        }
+        .my-loader .face.left {
+            transform: rotateY(-90deg) translateZ(50px); /* Ajuste para o tamanho menor */
+        }
+        .my-loader .face.right {
+            transform: rotateY(90deg) translateZ(50px); /* Ajuste para o tamanho menor */
+        }
+        .my-loader .face.top {
+            transform: rotateX(90deg) translateZ(50px); /* Ajuste para o tamanho menor */
+        }
+        .my-loader .face.bottom {
+            transform: rotateX(-90deg) translateZ(50px); /* Ajuste para o tamanho menor */
+        }
+
+        .my-loader .cube {
+            width: calc(100% / 3);
+            height: calc(100% / 3);
+            box-sizing: border-box;
+            border: 1px solid #000;
+        }
+
+        @keyframes my-rotateCube {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        /* Conteúdo principal */
         .navbar {
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            background-color: #333;
+            background-color: rgba(51, 51, 51, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+            margin-top: 120px; /* Espaço para o cubo mágico no topo */
+        }
+
+        .loaded .navbar {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .logo img {
             width: 150px;
             height: auto;
+            margin-bottom: 20px;
         }
 
         ul {
@@ -39,11 +120,11 @@
         }
 
         li {
-            margin: 10px 0; /* Espaçamento entre os botões */
+            margin: 15px 0;
         }
 
         .glow-on-hover {
-            width: 100%; /* Faz o botão ocupar toda a largura disponível */
+            width: 100%;
             padding: 15px;
             border: none;
             outline: none;
@@ -54,11 +135,12 @@
             z-index: 0;
             border-radius: 10px;
             font-size: 16px;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.3s;
         }
 
         .glow-on-hover:hover {
             background: #ff4500;
+            transform: scale(1.05);
         }
 
         .glow-on-hover:before {
@@ -113,25 +195,83 @@
                 background-position: 0 0;
             }
         }
-
-        /* Estilos para o astronauta e estrelas (opcional) */
-        .box-of-star1, .box-of-star2, .box-of-star3, .box-of-star4 {
-            position: absolute;
-            z-index: -1;
-        }
-
-        .astronaut {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 100px;
-            height: 100px;
-            z-index: 1;
-        }
     </style>
 </head>
 
 <body>
+    <!-- Cubo mágico como loader -->
+    <div class="my-loader">
+        <div class="rubiks-cube">
+            <div class="face front">
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+            </div>
+            <div class="face back">
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+            </div>
+            <div class="face left">
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+            </div>
+            <div class="face right">
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+            </div>
+            <div class="face top">
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+            </div>
+            <div class="face bottom">
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+                <div style="background: #ffeb3b;" class="cube"></div>
+                <div style="background: #4caf50;" class="cube"></div>
+                <div style="background: #2196f3;" class="cube"></div>
+                <div style="background: #ffffff;" class="cube"></div>
+                <div style="background: #ff3d00;" class="cube"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal -->
     <nav class="navbar">
         <div class="logo">
             <img src="/img/Rever E Aprender (1).png" alt="Logo" />
@@ -144,53 +284,12 @@
         </ul>
     </nav>
 
-    <div class="box-of-star1">
-        <div class="star star-position1"></div>
-        <div class="star star-position2"></div>
-        <div class="star star-position3"></div>
-        <div class="star star-position4"></div>
-        <div class="star star-position5"></div>
-        <div class="star star-position6"></div>
-        <div class="star star-position7"></div>
-    </div>
-    <div class="box-of-star2">
-        <div class="star star-position1"></div>
-        <div class="star star-position2"></div>
-        <div class="star star-position3"></div>
-        <div class="star star-position4"></div>
-        <div class="star star-position5"></div>
-        <div class="star star-position6"></div>
-        <div class="star star-position7"></div>
-    </div>
-    <div class="box-of-star3">
-        <div class="star star-position1"></div>
-        <div class="star star-position2"></div>
-        <div class="star star-position3"></div>
-        <div class="star star-position4"></div>
-        <div class="star star-position5"></div>
-        <div class="star star-position6"></div>
-        <div class="star star-position7"></div>
-    </div>
-    <div class="box-of-star4">
-        <div class="star star-position1"></div>
-        <div class="star star-position2"></div>
-        <div class="star star-position3"></div>
-        <div class="star star-position4"></div>
-        <div class="star star-position5"></div>
-        <div class="star star-position6"></div>
-        <div class="star star-position7"></div>
-    </div>
-    <div data-js="astro" class="astronaut">
-        <div class="head"></div>
-        <div class="arm arm-left"></div>
-        <div class="arm arm-right"></div>
-        <div class="body">
-            <div class="panel"></div>
-        </div>
-        <div class="leg leg-left"></div>
-        <div class="leg leg-right"></div>
-        <div class="schoolbag"></div>
-    </div>
+    <script>
+        // Simula o carregamento da página
+        setTimeout(function() {
+            document.body.classList.add('loaded');
+        }, 2000); // 2 segundos de delay
+    </script>
 </body>
 
 </html>
